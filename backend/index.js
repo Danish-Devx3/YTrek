@@ -10,6 +10,8 @@ app.use(cors());
 app.get("/api", async (req, res) => {
 
   const API_KEY = process.env.API_KEY;
+
+  const playlistLink = req.body;
   try {
     const response = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&si=rGx2eMIbvZCDgABS&key=${API_KEY}`);
     const data = await response.json();
