@@ -1,4 +1,3 @@
-import e from 'express';
 import express from 'express';
 import { login, signup } from '../controller/user.controller.js';
 import userMiddleware from '../middleware/userMiddleware.js';

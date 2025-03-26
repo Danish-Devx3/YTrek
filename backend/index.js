@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRouter.js";
+import courseRouter from "./routes/courseRoute";
 import connectDB from "./db.js";
 
 dotenv.config(); 
@@ -15,20 +16,7 @@ connectDB();
 
 app.use("/user",userRouter);
 
-app.get("/api", async (req, res) => {
-
-  const API_KEY = process.env.API_KEY;
-
-  const playlistLink = req.body;
-  try {
-    const response = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP&si=rGx2eMIbvZCDgABS&key=${API_KEY}`);
-    const data = await response.json();
-    res.json(data);
-} catch (error) {
-  console.error("Error fetching playlist:", error);
-  res.json({ error: "An error occurred" });
-}
-});
+app.use("/course", courseRouter )
 
 app.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running on port ${process.env.PORT || 5000}`);
