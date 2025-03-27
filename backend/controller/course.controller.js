@@ -1,11 +1,12 @@
-import { User } from "../db";
+import { User } from "../db.js";
+import jwt from "jsonwebtoken";
 
-export const addplaylist = async (playlistId) => {
-    const playlist = req.params.playlist;
+export const addplaylist = async (req,res) => {
+    const playlist = req.body.playlist;
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     try {
-        const user = await User.findById(userId);
+        const user = await User.findById(decodedToken.user_id);
         if (!user) return res.status(404).json({ message: 'User not found' });
         if (user.playlists.includes(playlistId)) {
             return res.status(400).json({ message: 'Playlist already exists' });

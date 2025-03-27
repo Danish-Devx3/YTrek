@@ -2,7 +2,27 @@ import { useState } from 'react'
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [playlistlink, setPlaylistlink] = useState('');
+
+  const addplaylist = async () => {
+     try {
+       const response = await fetch('http://localhost:5000/api/course/add/YOUR_PLAYLIST_ID', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ playlistId: playlistlink }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+
+  };
 
   return (
     <>
@@ -24,8 +44,8 @@ function App() {
         </div>
 
         <div>
-          <input type="text" className='border border-gray-500 rounded-[2px] py-1 px-29 mr-4' placeholder='Add Youtube Playlist Link Here' />
-          <button className="btn bg-blue-500 border border-blue-500 py-1 px-3 rounded-[2px] cursor-pointer ">Add Playlist</button>
+          <input value={playlistlink} onChange={(e)=>setPlaylistlink(e.target.value)} type="text" className='border border-gray-500 rounded-[2px] py-1 px-29 mr-4' placeholder='Add Youtube Playlist Link Here' />
+          <button onClick={addplaylist} className="btn bg-blue-500 border border-blue-500 py-1 px-3 rounded-[2px] cursor-pointer ">Add Playlist</button>
         </div>
 
       </section>
