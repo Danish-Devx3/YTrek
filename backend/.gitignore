@@ -1,0 +1,64 @@
+[200~# === Node.js ===
+node_modules/
+.pnpm/
+.pnpm-debug.log
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# === Build Artifacts ===
+dist/
+build/
+.cache/
+.next/
+out/
+
+# === TypeScript ===
+*.tsbuildinfo
+
+# === Environment Variables ===
+.env
+.env.*
+!.env.example
+
+# === OS + IDEs ===
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# === Testing ===
+coverage/
+.nyc_output/
+jest-cache/
+jest-output.json
+*.test.ts
+*.test.tsx
+
+# === MongoDB data (if you ever dump locally) ===
+dump/
+
+# === Logs ===
+logs/
+*.log
+
+# === Turborepo / Monorepo Support ===
+turbo/
+task/
+
+# === React ===
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
+
+# === Misc ===
+*.tgz
+*.pid
+*.seed
+*.bak
+*.tmp
+
