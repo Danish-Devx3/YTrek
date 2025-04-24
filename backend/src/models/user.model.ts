@@ -2,11 +2,11 @@ import mongoose, { Document } from "mongoose";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-interface IUser extends Document {
+export interface IUser extends Document {
 	username: string;
 	password: string;
 	email: string;
-	fullname: string;
+	fullName: string;
 	role: "user" | "admin";
 	refreshToken: string;
 	avatar: string;
@@ -17,6 +17,7 @@ interface IUser extends Document {
 	) => Promise<boolean>;
 	generateAccessToken: () => string;
 	generateRefreshToken: () => string;
+	userObj: () => Omit<IUser, "password" | "refreshToken" | "accessToken">;
 }
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -49,9 +50,9 @@ const userSchema = new mongoose.Schema<IUser>(
 			unique: [true, "Email should be unique"],
 		},
 
-		fullname: {
+		fullName: {
 			type: String,
-			required: [true, "Please provide fullname"],
+			required: [true, "Please provide fullName"],
 			trim: true,
 		},
 		role: {
@@ -107,7 +108,7 @@ userSchema.methods.changePassword = async function (
 };
 
 // instance methods to genereate tokens
-userSchema.methods.generateAccessToken = async function () {
+userSchema.methods.generateAccessToken = function () {
 	const payload = {
 		_id: this._id,
 		username: this.username,
@@ -124,7 +125,7 @@ userSchema.methods.generateAccessToken = async function () {
 	return jwt.sign(payload, accessTokenSecret, { expiresIn: "4d" });
 };
 
-userSchema.methods.generateRefreshToken = async function () {
+userSchema.methods.generateRefreshToken = function () {
 	const payload = {
 		_id: this._id,
 		username: this.username,
@@ -138,8 +139,19 @@ userSchema.methods.generateRefreshToken = async function () {
 	return jwt.sign(payload, refreshTokenSecret, { expiresIn: "10d" });
 };
 
+userSchema.methods.userObj = function (): Omit<
+	IUser,
+	"password" | "refreshToken" | "accessToken"
+> {
+	const user = this.toObject();
+	delete user.password;
+	delete user.refreshToken;
+	delete user.accessToken;
+	return user;
+};
+
 userSchema.virtual("firstName").get(function (this: IUser): string {
-	return this.fullname.split(" ")[0];
+	return this.fullName.split(" ")[0];
 });
 
 const UserModel = mongoose.model<IUser>("User", userSchema);
