@@ -48,6 +48,7 @@ out/
 .env
 .env.*
 !.env.example
+!.env.sample
 
 # === OS + IDEs ===
 .DS_Store
