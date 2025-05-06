@@ -4,7 +4,7 @@ import userMiddleware from '../middleware/userMiddleware.js';
 
 const Router = express.Router();
 
-Router.post('/add', addplaylist );
+Router.post('/add', userMiddleware, addplaylist );
 
 Router.get('/playlists', userMiddleware, getPlaylists )
 

@@ -14,12 +14,7 @@ export const signup = async (req, res) =>{
         }
         const user = await User.create({name, email, password});
         
-        res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            password: user.password
-        });
+        res.status(201).json({user});
     } catch (error){
         res.status(500).json({error: "errror in signup"});
     }
@@ -42,4 +37,13 @@ export const login = async (req, res) =>{
     } catch (error) {
         res.status(500).json({error: "errror in login"});
     }
+}
+
+export const profile = async (req, res)=>{
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if(!user){
+        return res.status(404).json({error: "User not found"});
+    }
+    res.status(200).json(user);
 }

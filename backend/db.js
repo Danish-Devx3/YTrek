@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  playlists: [{}],
+  playlists: [],
 });
 
 export const User = mongoose.model("User", userSchema);
