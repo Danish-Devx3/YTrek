@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Signup } from "./pages/signup";
+import { Signup } from "./pages/Signup";
 import { BrowserRouter, Routes, Route } from "react-router";
+import { Signin } from "./pages/Signin";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Signup />} />
+          <Route path="/signin" element={<Signin />} />
         </Routes>
       </BrowserRouter>
     </>
