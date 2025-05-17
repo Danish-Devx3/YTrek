@@ -1,7 +1,31 @@
+import { useState } from 'react'
 import {Link} from 'react-router'
 
 export const Signup = () => {
-  
+  const [userData, setUserData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  })
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const response = await fetch('http://localhost:5000/api/user/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    })
+
+    const data = await response.json()
+    if (response.ok) {
+      console.log('User signed up successfully:', data)
+    } else {
+      console.error('Error signing up:', data)
+    }
+  }
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -20,6 +44,7 @@ export const Signup = () => {
               </label>
               <div className="mt-2">
                 <input
+                  onChange={(e) => setUserData({...userData, name: e.target.value})}
                   id="name"
                   name="name"
                   type="text"
@@ -35,6 +60,7 @@ export const Signup = () => {
               </label>
               <div className="mt-2">
                 <input
+                  onChange={(e) => setUserData({...userData, email: e.target.value})}
                   id="email"
                   name="email"
                   type="email"
@@ -54,6 +80,7 @@ export const Signup = () => {
               </div>
               <div className="mt-2">
                 <input
+                  onChange={(e) => setUserData({...userData, password: e.target.value})}
                   id="password"
                   name="password"
                   type="password"
@@ -66,6 +93,8 @@ export const Signup = () => {
 
             <div>
               <button
+                onClick={handleSubmit}
+                disabled={!userData.name || !userData.email || !userData.password}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >

@@ -1,5 +1,28 @@
+import { useState } from 'react'
 import {Link} from 'react-router'
 export const Signin = () => {
+    const [userData, setUserData] = useState({
+        email: '',
+        password: ''
+    })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const response = await fetch('http://localhost:5000/api/user/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+
+        const data = await response.json()
+        if (response.ok) {
+            console.log('User logged in successfully:', data)
+        } else {
+            console.error('Error logging in:', data)
+        }
+    }
     return(
         <>
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -17,6 +40,7 @@ export const Signin = () => {
                         </label>
                         <div className="mt-2">
                             <input
+                                onChange={(e) => setUserData({...userData, email: e.target.value})}
                                 id="email"
                                 name="email"
                                 type="email"
@@ -35,6 +59,7 @@ export const Signin = () => {
                         </div>
                         <div className="mt-2">
                             <input
+                                onChange={(e) => setUserData({...userData, password: e.target.value})}
                                 id="password"
                                 name="password"
                                 type="password"
@@ -47,6 +72,8 @@ export const Signin = () => {
 
                     <div>
                         <button
+                            onClick={handleSubmit}
+                            disabled={userData.email === '' || userData.password === ''}    
                             type="submit"
                             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >

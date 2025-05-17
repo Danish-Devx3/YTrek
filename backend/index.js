@@ -14,7 +14,11 @@ app.use(express.json());
 
 connectDB();
 
-app.use("/user",userRouter);
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
+app.use("/api/user",userRouter);
 
 app.use("/course", courseRouter )
 
